@@ -168,6 +168,7 @@ body{font-family:"Cormorant Garamond",Georgia,serif;color:var(--ink);background:
 .tabla td:first-child{white-space:nowrap;color:var(--ink-soft);font-size:14px}
 .tabla .det{color:var(--ink-soft);font-size:14px}
 .cinta{cursor:pointer}
+.salir-link{appearance:none;background:none;border:none;color:var(--ink-soft);font-family:inherit;font-size:15px;text-decoration:underline;opacity:.6;cursor:pointer;padding:6px}
 /* ---------- RADIO ---------- */
 .radio{position:fixed;right:14px;bottom:14px;z-index:25;display:flex;align-items:center;gap:10px;padding:8px 8px 8px 10px;border-radius:999px;
   background:rgba(22,10,34,.86);border:1px solid var(--line);backdrop-filter:blur(8px);box-shadow:0 12px 30px rgba(0,0,0,.45);max-width:calc(100vw - 28px)}
@@ -236,6 +237,7 @@ body{font-family:"Cormorant Garamond",Georgia,serif;color:var(--ink);background:
     </header>
     <section class="calendario" id="calendario"></section>
     <p class="pie">Cada día de diciembre se abre una puerta nueva, hasta Nochebuena.</p>
+    <p class="pie"><button class="salir-link" id="btn-salir">Cerrar sesión</button></p>
   </main>
 </section>
 
@@ -321,6 +323,11 @@ async function entrar(){
   cargarDias(r); S.preview=false; pintarCalendario(); mostrar("calendario-vista"); radio.hidden=false;
 }
 function cargarDias(r){ S.dias={}; (r.dias||[]).forEach(d=>S.dias[d.n]=d); S.abiertos=r.abiertos||{}; S.disponibles=r.disponibles; }
+// Cerrar sesión: botón al final del calendario, o abrir el enlace con ?salir
+function salir(){ ls.del("dic_email"); Object.assign(S,{email:null,clave:null,rol:null,admin:null,preview:false}); audio.pause();
+  $("#clave").value=""; $("#clave").hidden=true; $("#email").value=""; $("#cinta").hidden=true; $("#radio").hidden=true; cerrar(); mostrar("acceso"); }
+$("#btn-salir").onclick=()=>{ if(S.rol==="admin"){ S.preview=false; cargarPanel(S.admin); } else salir(); };
+if(new URLSearchParams(location.search).has("salir")){ ls.del("dic_email"); history.replaceState(null,"",location.pathname); }
 // Si ella ya entró antes en este dispositivo, entra directo
 (async()=>{ const e=ls.get("dic_email"); if(e && !URL_SERVIDOR.startsWith("PEGA_")){ S.email=e; $("#email").value=e;
   try{ await entrar(); }catch(_){ $("#error").textContent="Sin conexión. Intenta de nuevo."; } } })();
@@ -431,7 +438,7 @@ $("#p-reiniciar").onclick=()=>{ if(confirmar("Se borrará el registro de puertas
 function confirmar(t){ return window.confirm(t); }
 $("#p-ver").onclick=()=>{ S.preview=true; S.vistos=new Set(); pintarCalendario(); $("#cinta").hidden=false; mostrar("calendario-vista"); radio.hidden=false; };
 $("#cinta").onclick=()=>{ S.preview=false; cerrar(); cargarPanel(S.admin); };
-$("#p-salir").onclick=()=>{ Object.assign(S,{email:null,clave:null,rol:null,admin:null}); $("#clave").value=""; $("#clave").hidden=true; $("#email").value=""; mostrar("acceso"); };
+$("#p-salir").onclick=()=>salir();
 
 /* ===== Radio Nuestro Diciembre ===== */
 const EMISORA = [
