@@ -168,6 +168,20 @@ body{font-family:"Cormorant Garamond",Georgia,serif;color:var(--ink);background:
 .tabla td:first-child{white-space:nowrap;color:var(--ink-soft);font-size:14px}
 .tabla .det{color:var(--ink-soft);font-size:14px}
 .cinta{cursor:pointer}
+/* ---------- RADIO ---------- */
+.radio{position:fixed;right:14px;bottom:14px;z-index:25;display:flex;align-items:center;gap:10px;padding:8px 8px 8px 10px;border-radius:999px;
+  background:rgba(22,10,34,.86);border:1px solid var(--line);backdrop-filter:blur(8px);box-shadow:0 12px 30px rgba(0,0,0,.45);max-width:calc(100vw - 28px)}
+.radio-disco{flex:none;width:40px;height:40px;border-radius:50%;background:radial-gradient(circle,#ecca8c 0 16%,#1a0d28 17% 20%,transparent 21%),repeating-radial-gradient(circle,#1c0f2b 0 2px,#2c1745 3px 4px);
+  box-shadow:0 0 0 2px rgba(236,202,140,.35)}
+.radio.sonando .radio-disco{animation:gira 4s linear infinite}
+.radio-info{min-width:0;width:170px}
+.radio-nombre{font-size:10px;letter-spacing:.14em;overflow:hidden;text-overflow:ellipsis;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.radio-cancion{font-size:15px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.radio-btn{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(184,138,232,.14);color:var(--lila);cursor:pointer;display:grid;place-items:center}
+.radio-btn:hover{background:rgba(184,138,232,.3)}
+.radio-btn svg{width:18px;height:18px}
+@media (max-width:420px){.radio-info{width:118px}}
+.pagina{padding-bottom:120px}
 @media (max-width:540px){.tabla td:first-child{white-space:normal}}
 </style>
 </head>
@@ -178,11 +192,20 @@ body{font-family:"Cormorant Garamond",Georgia,serif;color:var(--ink);background:
 <div class="aviso-flotante" id="aviso"></div>
 <div class="zoom" id="zoom"><img alt=""></div>
 
-<audio id="musica" src="musica.mp3" loop preload="auto"></audio>
-<button id="musica-btn" aria-label="Pausar o reproducir la música">
-  <svg id="ico-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-  <svg id="ico-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="display:none"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/><path d="M3 3l18 18"/></svg>
-</button>
+<!-- ============ RADIO NUESTRO DICIEMBRE ============ -->
+<audio id="musica" preload="none"></audio>
+<div class="radio" id="radio" hidden>
+  <div class="radio-disco" id="radio-disco"></div>
+  <div class="radio-info">
+    <div class="radio-nombre">Radio Nuestro Diciembre</div>
+    <div class="radio-cancion" id="radio-cancion">Toca ▶ para escuchar</div>
+  </div>
+  <button class="radio-btn" id="radio-play" aria-label="Reproducir o pausar">
+    <svg id="ico-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="ico-pausa" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+  </button>
+  <button class="radio-btn" id="radio-sig" aria-label="Siguiente canción"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6l8.5 6L6 18zM16 6h2v12h-2z"/></svg></button>
+</div>
 
 <!-- ============ ACCESO ============ -->
 <section id="acceso" class="vista activa">
@@ -295,7 +318,7 @@ async function entrar(){
   S.rol=r.rol;
   if(r.rol==="admin"){ cargarPanel(r); return; }
   ls.set("dic_email",S.email);
-  cargarDias(r); S.preview=false; pintarCalendario(); mostrar("calendario-vista");
+  cargarDias(r); S.preview=false; pintarCalendario(); mostrar("calendario-vista"); radio.hidden=false;
 }
 function cargarDias(r){ S.dias={}; (r.dias||[]).forEach(d=>S.dias[d.n]=d); S.abiertos=r.abiertos||{}; S.disponibles=r.disponibles; }
 // Si ella ya entró antes en este dispositivo, entra directo
@@ -348,12 +371,12 @@ function abrirTarjeta(n,nueva){
   $("#tarjeta").innerHTML=h;
   $("#tarjeta .cerrar").onclick=cerrar;
   $("#tarjeta").querySelectorAll(".medios.g2 img,.medios.g3 img,.medios.g4 img,.collage img").forEach(i=>i.onclick=()=>{ $("#zoom img").src=i.src; $("#zoom").classList.add("ver"); });
-  $("#tarjeta").querySelectorAll("video").forEach(v=>v.addEventListener("play",()=>{ if(!audio.paused){ audio.pause(); iconos(false); } }));
+  $("#tarjeta").querySelectorAll("video").forEach(v=>{ v.addEventListener("play",pausarPorVideo); v.addEventListener("pause",reanudarTrasVideo); });
   $("#modal").classList.add("abierto"); $("#tarjeta").scrollTop=0;
   if(nueva) estallido(n===24?130:45);
   actualizarEstado();
 }
-function cerrar(){ $("#modal").classList.remove("abierto"); $("#tarjeta").querySelectorAll("video").forEach(v=>v.pause()); }
+function cerrar(){ $("#modal").classList.remove("abierto"); $("#tarjeta").querySelectorAll("video").forEach(v=>v.pause()); reanudarTrasVideo(); }
 $("#modal").addEventListener("click",e=>{ if(e.target.id==="modal") cerrar(); });
 $("#zoom").onclick=()=>$("#zoom").classList.remove("ver");
 addEventListener("keydown",e=>{ if(e.key==="Escape"){ $("#zoom").classList.remove("ver"); cerrar(); } });
@@ -406,17 +429,35 @@ async function refrescar(extra){ try{ const r=await api(Object.assign({accion:"e
 $("#p-actualizar").onclick=()=>refrescar();
 $("#p-reiniciar").onclick=()=>{ if(confirmar("Se borrará el registro de puertas abiertas (para dejarlo en cero después de tus pruebas). ¿Seguro?")) refrescar({accion:"reiniciar"}); };
 function confirmar(t){ return window.confirm(t); }
-$("#p-ver").onclick=()=>{ S.preview=true; S.vistos=new Set(); pintarCalendario(); $("#cinta").hidden=false; mostrar("calendario-vista"); };
+$("#p-ver").onclick=()=>{ S.preview=true; S.vistos=new Set(); pintarCalendario(); $("#cinta").hidden=false; mostrar("calendario-vista"); radio.hidden=false; };
 $("#cinta").onclick=()=>{ S.preview=false; cerrar(); cargarPanel(S.admin); };
 $("#p-salir").onclick=()=>{ Object.assign(S,{email:null,clave:null,rol:null,admin:null}); $("#clave").value=""; $("#clave").hidden=true; $("#email").value=""; mostrar("acceso"); };
 
-/* ===== Música (opcional: musica.mp3) ===== */
-const audio=$("#musica"), mBtn=$("#musica-btn"); let hayMusica=true;
-audio.addEventListener("error",()=>{hayMusica=false;mBtn.classList.remove("visible")});
-function iconos(on){$("#ico-on").style.display=on?"":"none";$("#ico-off").style.display=on?"none":""}
-function tocarMusica(){ if(!hayMusica||!audio.paused||audio.error||audio._pausadaPorUsuario) return; audio.volume=0;
-  audio.play().then(()=>{mBtn.classList.add("visible");iconos(true);let v=0;const f=setInterval(()=>{v=Math.min(.6,v+.04);audio.volume=v;if(v>=.6)clearInterval(f)},150)}).catch(()=>{}); }
-mBtn.onclick=()=>{ if(audio.paused){audio._pausadaPorUsuario=false;audio.play();iconos(true)} else {audio._pausadaPorUsuario=true;audio.pause();iconos(false)} };
+/* ===== Radio Nuestro Diciembre ===== */
+const EMISORA = [
+  { f:"radio1.mp3", t:"Last Christmas", a:"Wham!" },
+  { f:"radio2.mp3", t:"Navidad negra", a:"José Barros" },
+  { f:"radio3.mp3", t:"Feliz Navidad", a:"José Feliciano" },
+  { f:"radio4.mp3", t:"Mi burrito sabanero", a:"Canticuentos" },
+  { f:"radio5.mp3", t:"Los peces en el río", a:"Niños Cantores de Navidad" },
+  { f:"radio6.mp3", t:"Ven a mi casa esta Navidad", a:"Luis Aguilé" },
+  { f:"radio7.mp3", t:"All I Want for Christmas Is You", a:"Mariah Carey" },
+];
+const audio=$("#musica"), radio=$("#radio"); let cola=[], actual=-1, fallos=0, pausadaPorUsuario=false, pausadaPorVideo=false;
+function barajar(){ cola=[...EMISORA.keys()]; for(let k=cola.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[cola[k],cola[j]]=[cola[j],cola[k]]}
+  if(cola[0]===actual && cola.length>1) [cola[0],cola[1]]=[cola[1],cola[0]]; }
+function iconos(on){ $("#ico-play").style.display=on?"none":""; $("#ico-pausa").style.display=on?"":"none"; radio.classList.toggle("sonando",on); }
+function cargar(i){ actual=i; const c=EMISORA[i]; audio.src=c.f; $("#radio-cancion").textContent=c.t+" · "+c.a; }
+function siguiente(){ if(!cola.length) barajar(); cargar(cola.shift()); return reproducir(); }
+function reproducir(){ return audio.play().then(()=>{fallos=0;iconos(true)}).catch(()=>iconos(false)); }
+audio.addEventListener("ended",siguiente);
+audio.addEventListener("error",()=>{ if(!audio.src) return; if(++fallos<EMISORA.length) siguiente(); else { $("#radio-cancion").textContent="No se encontraron las canciones"; iconos(false); } });
+audio.addEventListener("pause",()=>iconos(false)); audio.addEventListener("play",()=>iconos(true));
+function tocarMusica(){ radio.hidden=false; if(pausadaPorUsuario||!audio.paused) return; if(actual<0) siguiente(); else reproducir(); }
+$("#radio-play").onclick=()=>{ if(audio.paused){ pausadaPorUsuario=false; actual<0?siguiente():reproducir(); } else { pausadaPorUsuario=true; audio.pause(); } };
+$("#radio-sig").onclick=()=>{ pausadaPorUsuario=false; siguiente(); };
+function pausarPorVideo(){ if(!audio.paused){ pausadaPorVideo=true; audio.pause(); } }
+function reanudarTrasVideo(){ if(pausadaPorVideo && !pausadaPorUsuario){ pausadaPorVideo=false; reproducir(); } }
 
 /* ===== Nieve, estrellas y destellos ===== */
 let chispas=[];
