@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nuestro diciembre</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --bg1:#0b0512; --bg2:#1f0f35; --bg3:#3c1d5c;
+  --lila:#e6cdf7; --violeta:#b88ae8; --violeta-2:#8f5fd0;
+  --gold:#ecca8c; --gold-2:#c9a15e; --ink:#f6eefb; --ink-soft:#cbb6db; --line:rgba(214,186,240,.22);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{font-family:"Cormorant Garamond",Georgia,serif;color:var(--ink);background:var(--bg1);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.fondo{position:fixed;inset:0;z-index:-1;background:
+  radial-gradient(1000px 650px at 50% -12%,var(--bg3) 0%,transparent 62%),
+  radial-gradient(800px 500px at 0% 110%,#2c1248 0%,transparent 60%),
+  linear-gradient(180deg,var(--bg2),var(--bg1))}
+#cielo{position:fixed;inset:0;z-index:0;pointer-events:none}
+.script{font-family:"Pinyon Script",cursive;font-weight:400;color:var(--lila);text-shadow:0 0 28px rgba(184,138,232,.35)}
+
+.pagina{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:46px 16px 90px}
+.cabecera{text-align:center}
+.estrella{width:46px;height:46px;margin:0 auto 10px;filter:drop-shadow(0 0 14px rgba(236,202,140,.75));animation:brilla 3s ease-in-out infinite}
+@keyframes brilla{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.1) rotate(8deg)}}
+.cabecera h1{font-size:clamp(50px,11vw,84px);line-height:1.05}
+.cabecera .sub{margin-top:8px;letter-spacing:.3em;text-transform:uppercase;font-size:13px;color:var(--gold)}
+.estado{margin:18px auto 0;max-width:540px;font-size:clamp(19px,2.6vw,22px);line-height:1.55;font-style:italic;color:var(--ink-soft)}
+.estado b{font-style:normal;color:var(--ink);font-weight:600}
+.cuenta{display:flex;justify-content:center;gap:12px;margin-top:18px}
+.cuenta div{min-width:70px;padding:10px 8px;border-radius:14px;border:1px solid var(--line);background:rgba(30,14,46,.55)}
+.cuenta b{display:block;font-size:30px;font-weight:600;color:var(--gold)}
+.cuenta small{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* ---------- PUERTAS ---------- */
+.calendario{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-top:34px;perspective:1200px}
+.casilla{position:relative;aspect-ratio:1/1.12;border-radius:16px}
+.casilla.grande .puerta{background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.18),transparent 45%),linear-gradient(150deg,#b98d4f,#7a5530 60%,#5c3d22)!important}
+.casilla.grande .puerta .num{color:#fff4dc}
+.casilla.grande .puerta::before{border-color:rgba(255,244,220,.5)}
+.interior{position:absolute;inset:0;border-radius:16px;overflow:hidden;background:#130a1f center/cover no-repeat;
+  box-shadow:inset 0 0 0 1px var(--line),inset 0 10px 30px rgba(0,0,0,.6);display:grid;place-items:center}
+.interior::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,5,18,.15),rgba(11,5,18,.55))}
+.interior .icono-dia{position:relative;z-index:1;font-size:26px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.6))}
+.puerta{position:absolute;inset:0;z-index:3;border-radius:16px;cursor:pointer;transform-origin:left center;transform-style:preserve-3d;
+  transition:transform 1.1s cubic-bezier(.4,.1,.2,1),box-shadow .3s;border:none;color:var(--ink);font-family:inherit;
+  background:
+    radial-gradient(circle at 30% 20%,rgba(255,255,255,.10),transparent 40%),
+    linear-gradient(150deg,#4a2470,#2a1342 60%,#22103a);
+  box-shadow:0 0 0 1px rgba(214,186,240,.28),0 10px 24px rgba(0,0,0,.45);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.casilla:nth-child(3n) .puerta{background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.10),transparent 40%),linear-gradient(150deg,#5a2a6e,#34163f 60%,#25102e)}
+.casilla:nth-child(4n+1) .puerta{background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.10),transparent 40%),linear-gradient(150deg,#3b2a78,#22174a 60%,#1a1038)}
+.puerta::before{content:"";position:absolute;inset:6px;border-radius:11px;border:1px dashed rgba(236,202,140,.35);pointer-events:none}
+.puerta .num{font-family:"Pinyon Script",cursive;font-size:clamp(34px,6vw,48px);line-height:1;color:var(--gold);text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.puerta .candado{font-size:13px;opacity:.55}
+.puerta .pomo{position:absolute;right:10px;top:50%;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px var(--gold)}
+.casilla.disponible .puerta{animation:llama 2.2s ease-in-out infinite}
+@keyframes llama{0%,100%{box-shadow:0 0 0 1px rgba(236,202,140,.6),0 0 18px rgba(236,202,140,.25),0 10px 24px rgba(0,0,0,.45)}
+  50%{box-shadow:0 0 0 2px rgba(236,202,140,.9),0 0 34px rgba(236,202,140,.5),0 10px 24px rgba(0,0,0,.45)}}
+.casilla.disponible .candado{display:none}
+.casilla.abierta .puerta{transform:rotateY(-108deg);box-shadow:none;pointer-events:none}
+.casilla.abierta .interior{cursor:pointer}
+.casilla.bloqueada .puerta{filter:saturate(.75) brightness(.82)}
+.casilla.sacude .puerta{animation:sacude .45s}
+@keyframes sacude{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+@media (max-width:620px){.calendario{grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.puerta .pomo{right:7px;width:5px;height:5px}}
+
+.aviso-flotante{position:fixed;left:50%;bottom:26px;transform:translate(-50%,30px);opacity:0;z-index:30;padding:12px 22px;border-radius:999px;
+  background:rgba(22,10,34,.92);border:1px solid var(--gold-2);color:var(--ink);font-size:18px;transition:all .4s;pointer-events:none;text-align:center;max-width:90vw}
+.aviso-flotante.ver{opacity:1;transform:translate(-50%,0)}
+.pie{text-align:center;margin-top:30px;color:var(--ink-soft);font-style:italic;font-size:17px}
+
+/* ---------- TARJETA DEL DÍA ---------- */
+.modal{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(8,3,14,.75);backdrop-filter:blur(6px)}
+.modal.abierto{display:flex;animation:aparece .6s ease both}
+@keyframes aparece{from{opacity:0}to{opacity:1}}
+.tarjeta{position:relative;max-width:480px;width:100%;max-height:calc(100dvh - 32px);overflow:auto;text-align:center;padding:30px 24px 26px;border-radius:26px;
+  background:linear-gradient(180deg,#2a1442,#140920);border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.65);animation:sube .7s cubic-bezier(.2,.8,.2,1) both}
+@keyframes sube{from{transform:translateY(30px) scale(.96)}to{transform:none}}
+.cerrar{position:absolute;right:12px;top:12px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink-soft);font-size:22px;cursor:pointer;line-height:1}
+.dia-etq{letter-spacing:.3em;text-transform:uppercase;font-size:13px;color:var(--gold)}
+.tarjeta h2{margin-top:6px;font-size:clamp(38px,9vw,52px);line-height:1.1}
+.tarjeta .texto{margin-top:14px;font-size:clamp(20px,4.4vw,23px);line-height:1.6}
+.tarjeta .texto p+p{margin-top:12px}
+.tarjeta .foto{display:block;width:100%;max-height:50vh;object-fit:cover;margin-top:16px;border-radius:12px;border:7px solid #f4ecfa;box-shadow:0 14px 34px rgba(0,0,0,.5);transform:rotate(-1.2deg)}
+.boleto{position:relative;margin-top:18px;padding:22px 18px;border-radius:16px;background:linear-gradient(135deg,#f3e3bd,#e2c58e);color:#3b1f4f;
+  box-shadow:0 12px 30px rgba(0,0,0,.4)}
+.boleto::before,.boleto::after{content:"";position:absolute;top:50%;width:22px;height:22px;margin-top:-11px;border-radius:50%;background:#1d0e2e}
+.boleto::before{left:-11px}.boleto::after{right:-11px}
+.boleto small{letter-spacing:.3em;text-transform:uppercase;font-size:12px;opacity:.75}
+.boleto b{display:block;margin-top:6px;font-size:clamp(23px,5vw,27px);line-height:1.3;font-weight:600}
+.disco{width:120px;height:120px;margin:18px auto 0;border-radius:50%;background:
+  radial-gradient(circle,#ecca8c 0 14%,#1a0d28 15% 17%,transparent 18%),
+  repeating-radial-gradient(circle,#1c0f2b 0 2px,#26143a 3px 4px);box-shadow:0 10px 30px rgba(0,0,0,.5);animation:gira 6s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+.cancion-nombre{margin-top:14px;font-size:26px;font-weight:600}
+.cancion-artista{font-style:italic;color:var(--ink-soft);font-size:19px}
+.btn{display:inline-block;appearance:none;border:1px solid var(--violeta);background:rgba(184,138,232,.12);color:var(--ink);text-decoration:none;
+  font-family:"Cormorant Garamond",serif;font-size:15px;letter-spacing:.18em;text-transform:uppercase;padding:12px 24px;border-radius:999px;cursor:pointer;margin-top:18px}
+.btn:hover{background:rgba(184,138,232,.26)}
+.collage{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:16px}
+.collage img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;border:3px solid #f4ecfa}
+.collage img:nth-child(odd){transform:rotate(-2deg)}.collage img:nth-child(even){transform:rotate(2deg)}
+.tuyo{margin-top:20px;font-family:"Pinyon Script",cursive;font-size:clamp(30px,7vw,40px);color:var(--lila)}
+.firma{display:block;width:120px;margin:8px auto 0;filter:drop-shadow(0 0 8px rgba(230,205,247,.4))}
+
+.cinta{position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:20;font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:6px 14px;border-radius:999px;
+  background:rgba(236,202,140,.15);border:1px solid var(--gold);color:var(--gold)}
+#musica-btn{position:fixed;right:16px;bottom:16px;z-index:20;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);
+  background:rgba(22,10,34,.75);color:var(--lila);cursor:pointer;display:none;align-items:center;justify-content:center}
+#musica-btn.visible{display:flex}
+#musica-btn svg{width:22px;height:22px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.vista{display:none;position:relative;z-index:1}
+.vista.activa{display:block;animation:aparece .9s ease both}
+/* ---------- ACCESO ---------- */
+#acceso.activa{display:flex;min-height:100vh;min-height:100dvh;align-items:center;justify-content:center;padding:28px 18px}
+.sobre{max-width:420px;width:100%;text-align:center;padding:40px 26px;border-radius:26px;background:rgba(30,14,46,.6);border:1px solid var(--line);backdrop-filter:blur(8px)}
+.sobre h1{font-size:clamp(46px,11vw,62px);line-height:1.05}
+.sobre p{margin-top:10px;color:var(--ink-soft);font-style:italic;font-size:19px;line-height:1.5}
+.campo{width:100%;margin-top:18px;padding:14px 16px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.25);color:var(--ink);font-family:inherit;font-size:19px;text-align:center}
+.campo:focus{outline:none;border-color:var(--violeta);box-shadow:0 0 0 3px rgba(184,138,232,.2)}
+.sobre .btn{width:100%;margin-top:20px;font-size:17px;padding:14px}
+.error{min-height:24px;margin-top:12px;color:#ffb3c1;font-size:17px}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:gira .8s linear infinite;vertical-align:-2px}
+/* ---------- tarjeta: medios ---------- */
+.medios{margin-top:16px;display:grid;gap:8px}
+.medios.g2{grid-template-columns:1fr 1fr}.medios.g3{grid-template-columns:1fr 1fr 1fr}.medios.g4{grid-template-columns:1fr 1fr}
+.medios img,.medios video{display:block;width:100%;border-radius:12px;border:5px solid #f4ecfa;box-shadow:0 12px 30px rgba(0,0,0,.45);background:#000}
+.medios.g1 img{max-height:56vh;object-fit:cover;transform:rotate(-1.2deg)}
+.medios.g2 img,.medios.g3 img,.medios.g4 img{aspect-ratio:3/4;object-fit:cover;cursor:zoom-in}
+.medios.g2 img:nth-child(odd),.medios.g4 img:nth-child(odd){transform:rotate(-1.5deg)}.medios.g2 img:nth-child(even),.medios.g4 img:nth-child(even){transform:rotate(1.5deg)}
+.medios video{max-height:62vh;margin:0 auto;width:auto;max-width:100%}
+.extra-cancion{margin-top:14px}
+.zoom{position:fixed;inset:0;z-index:60;background:rgba(5,2,9,.94);display:none;align-items:center;justify-content:center;padding:14px;cursor:zoom-out}
+.zoom.ver{display:flex}.zoom img{max-width:100%;max-height:100%;border-radius:10px}
+/* ---------- PANEL ---------- */
+.panel{max-width:860px;margin:0 auto;padding:60px 16px 90px}
+.panel h2{text-align:center;font-size:clamp(42px,8vw,58px)}
+.caja{margin-top:22px;padding:22px;border-radius:20px;background:rgba(30,14,46,.62);border:1px solid var(--line)}
+.caja h3{font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);font-weight:500}
+.grande{margin-top:8px;font-size:clamp(22px,4vw,28px);font-weight:600}
+.suave{color:var(--ink-soft);font-style:italic;font-size:18px;margin-top:4px}
+.fila-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.fila-btns .btn{margin-top:0;padding:11px 18px;font-size:13px}
+.btn.sec{border-color:var(--line);background:transparent}
+.btn.peligro{border-color:#ff8fa3;color:#ffc2cd;background:transparent}
+.lista-dias{margin-top:12px;display:grid;gap:8px}
+.fila-dia{display:grid;grid-template-columns:44px 56px 1fr;gap:12px;align-items:center;padding:8px;border-radius:14px;background:rgba(0,0,0,.18);cursor:pointer}
+.fila-dia:hover{background:rgba(184,138,232,.12)}
+.fila-dia .n{font-family:"Pinyon Script",cursive;font-size:32px;color:var(--gold);text-align:center}
+.fila-dia .mini{width:56px;height:56px;border-radius:10px;background:#1a0d28 center/cover no-repeat;display:grid;place-items:center;font-size:22px}
+.fila-dia b{font-weight:600;font-size:18px}
+.fila-dia .est{font-size:15px;color:var(--ink-soft)}
+.fila-dia .est.si{color:#b9f0c8}.fila-dia .est.no{color:var(--gold)}
+.tabla{width:100%;border-collapse:collapse;margin-top:10px;font-size:16px}
+.tabla td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.tabla td:first-child{white-space:nowrap;color:var(--ink-soft);font-size:14px}
+.tabla .det{color:var(--ink-soft);font-size:14px}
+.cinta{cursor:pointer}
+@media (max-width:540px){.tabla td:first-child{white-space:normal}}
+</style>
+</head>
+<body>
+<div class="fondo"></div>
+<canvas id="cielo"></canvas>
+<button class="cinta" id="cinta" hidden>Vista previa · volver al panel</button>
+<div class="aviso-flotante" id="aviso"></div>
+<div class="zoom" id="zoom"><img alt=""></div>
+
+<audio id="musica" src="musica.mp3" loop preload="auto"></audio>
+<button id="musica-btn" aria-label="Pausar o reproducir la música">
+  <svg id="ico-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+  <svg id="ico-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="display:none"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/><path d="M3 3l18 18"/></svg>
+</button>
+
+<!-- ============ ACCESO ============ -->
+<section id="acceso" class="vista activa">
+  <form class="sobre" id="form-acceso">
+    <svg class="estrella" viewBox="0 0 24 24"><path fill="#ecca8c" d="M12 2l2.6 6.6L21.5 9l-5.3 4.5L17.9 21 12 17.3 6.1 21l1.7-7.5L2.5 9l6.9-.4z"/></svg>
+    <h1 class="script">Nuestro diciembre</h1>
+    <p>Escribe tu correo para abrir tu calendario.</p>
+    <input class="campo" id="email" type="email" inputmode="email" placeholder="tucorreo@gmail.com" required autocomplete="email">
+    <input class="campo" id="clave" type="password" placeholder="Clave" hidden autocomplete="current-password">
+    <button class="btn" id="btn-entrar" type="submit">Entrar</button>
+    <div class="error" id="error" role="alert"></div>
+  </form>
+</section>
+
+<!-- ============ CALENDARIO ============ -->
+<section id="calendario-vista" class="vista">
+  <main class="pagina">
+    <header class="cabecera">
+      <svg class="estrella" viewBox="0 0 24 24"><path fill="#ecca8c" d="M12 2l2.6 6.6L21.5 9l-5.3 4.5L17.9 21 12 17.3 6.1 21l1.7-7.5L2.5 9l6.9-.4z"/></svg>
+      <h1 class="script">Nuestro diciembre</h1>
+      <div class="sub">Un calendario de adviento para ti</div>
+      <p class="estado" id="estado"></p>
+      <div class="cuenta" id="cuenta" hidden>
+        <div><b id="c-d">0</b><small>días</small></div>
+        <div><b id="c-h">0</b><small>horas</small></div>
+        <div><b id="c-m">0</b><small>min</small></div>
+      </div>
+    </header>
+    <section class="calendario" id="calendario"></section>
+    <p class="pie">Cada día de diciembre se abre una puerta nueva, hasta Nochebuena.</p>
+  </main>
+</section>
+
+<!-- ============ PANEL ADMINISTRADOR ============ -->
+<section id="panel" class="vista">
+  <div class="panel">
+    <h2 class="script">Panel</h2>
+    <div class="caja">
+      <h3>Resumen</h3>
+      <div class="grande" id="p-resumen"></div>
+      <div class="suave" id="p-hoy"></div>
+      <div class="fila-btns">
+        <button class="btn" id="p-ver">Ver calendario como ella</button>
+        <button class="btn sec" id="p-actualizar">Actualizar</button>
+        <button class="btn peligro" id="p-reiniciar">Reiniciar puertas</button>
+        <button class="btn sec" id="p-salir">Salir</button>
+      </div>
+    </div>
+    <div class="caja">
+      <h3>Los 24 días</h3>
+      <div class="suave">Toca un día para ver su sorpresa.</div>
+      <div class="lista-dias" id="p-dias"></div>
+    </div>
+    <div class="caja">
+      <h3>Actividad</h3>
+      <div id="p-registro"></div>
+    </div>
+  </div>
+</section>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true"><article class="tarjeta" id="tarjeta"></article></div>
+
+<script>
+/* ===================== CONFIGURACIÓN =====================
+   Pega aquí la URL de tu Google Apps Script (termina en /exec). */
+const URL_SERVIDOR = "https://script.google.com/macros/s/AKfycbxJd5ZXECZEnDUiAQMUHh3jDDDQTA8iPoKs-h-oBduPVRF6dnvxLFT1w1KGYPUwt4lkPQ/exec";
+/* ========================================================= */
+
+const ZONA = "America/Bogota", ANIO = 2026;
+const ORDEN = [7,16,1,22,11,4,19,13,24,9,2,15,20,6,12,3,23,10,17,5,14,21,8,18];
+const ICONO = {carta:"💌",foto:"📷",vale:"🎟️",cancion:"🎵",reto:"✨",razon:"💜",video:"🎬",final:"🎄"};
+const $ = s => document.querySelector(s);
+const ls = { get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}}, del(k){try{localStorage.removeItem(k)}catch(e){}} };
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const DISP = (()=>{ const u=navigator.userAgent;
+  return (/iPhone|iPad/.test(u)?"iPhone/iPad":/Android/.test(u)?"Android":/Windows/.test(u)?"Windows":/Mac/.test(u)?"Mac":"Otro")+" · "+innerWidth+"px"; })();
+
+const S = { email:null, clave:null, rol:null, dias:{}, abiertos:{}, disponibles:0, desfase:0, preview:false, admin:null };
+
+async function api(datos){
+  const r = await fetch(URL_SERVIDOR,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
+    body:JSON.stringify(Object.assign({email:S.email,clave:S.clave,disp:DISP},datos))});
+  const j = await r.json();
+  if(j.ahora) S.desfase = j.ahora - Date.now();      // la hora siempre viene del servidor
+  return j;
+}
+function mostrar(id){ document.querySelectorAll(".vista").forEach(v=>v.classList.remove("activa")); $("#"+id).classList.add("activa"); scrollTo({top:0}); }
+let tAviso; function avisar(t){ const a=$("#aviso"); a.textContent=t; a.classList.add("ver"); clearTimeout(tAviso); tAviso=setTimeout(()=>a.classList.remove("ver"),2600); }
+
+/* ===== Fecha de Colombia según el servidor ===== */
+function fechaCol(){
+  const p = new Intl.DateTimeFormat("en-CA",{timeZone:ZONA,year:"numeric",month:"numeric",day:"numeric",hour:"numeric",minute:"numeric",hourCycle:"h23"}).formatToParts(new Date(Date.now()+S.desfase));
+  const o={}; p.forEach(x=>o[x.type]=+x.value); return o;
+}
+function dispSegunReloj(){ const f=fechaCol(); return f.year>ANIO?24:(f.year<ANIO||f.month<12)?0:Math.min(24,f.day); }
+
+/* ===== Acceso ===== */
+$("#form-acceso").onsubmit = async ev => {
+  ev.preventDefault();
+  S.email = $("#email").value.trim().toLowerCase(); S.clave = $("#clave").hidden ? null : $("#clave").value;
+  if(!S.email) return;
+  if(URL_SERVIDOR.startsWith("PEGA_")){ $("#error").textContent="Falta configurar la URL del servidor."; return; }
+  const b=$("#btn-entrar"); b.innerHTML='<span class="spinner"></span>'; b.disabled=true; $("#error").textContent="";
+  try{ await entrar(); }catch(e){ $("#error").textContent="Sin conexión. Intenta de nuevo."; }
+  finally{ b.textContent="Entrar"; b.disabled=false; }
+};
+async function entrar(){
+  const r = await api({accion:"entrar"});
+  if(!r.ok){ if(r.necesitaClave){ $("#clave").hidden=false; $("#clave").focus(); } $("#error").textContent=r.error||"No se pudo entrar."; ls.del("dic_email"); mostrar("acceso"); return; }
+  S.rol=r.rol;
+  if(r.rol==="admin"){ cargarPanel(r); return; }
+  ls.set("dic_email",S.email);
+  cargarDias(r); S.preview=false; pintarCalendario(); mostrar("calendario-vista");
+}
+function cargarDias(r){ S.dias={}; (r.dias||[]).forEach(d=>S.dias[d.n]=d); S.abiertos=r.abiertos||{}; S.disponibles=r.disponibles; }
+// Si ella ya entró antes en este dispositivo, entra directo
+(async()=>{ const e=ls.get("dic_email"); if(e && !URL_SERVIDOR.startsWith("PEGA_")){ S.email=e; $("#email").value=e;
+  try{ await entrar(); }catch(_){ $("#error").textContent="Sin conexión. Intenta de nuevo."; } } })();
+
+/* ===== Calendario ===== */
+function disponiblesAhora(){ return S.preview ? 24 : S.disponibles; }
+function portada(d){ const m=(d.media||[])[0]; return m ? (m.t==="video"?m.poster:m.f) : ""; }
+function pintarCalendario(){
+  const disp=disponiblesAhora(), cal=$("#calendario"); cal.innerHTML="";
+  ORDEN.forEach(n=>{
+    const d=S.dias[n], libre=n<=disp && d, abierta=libre && (S.preview ? S.vistos?.has(n) : !!S.abiertos[n]);
+    const c=document.createElement("div");
+    c.className="casilla"+(n===24?" grande":"")+(abierta?" abierta":libre?" disponible":" bloqueada"); c.dataset.n=n;
+    c.innerHTML=`<div class="interior" ${libre?`style="background-image:url('${portada(d)}')"`:""}>${libre?`<span class="icono-dia">${ICONO[d.tipo]||"💜"}</span>`:""}</div>
+      <button class="puerta" aria-label="Día ${n}"><span class="num">${n}</span><span class="candado">🔒</span><span class="pomo"></span></button>`;
+    c.querySelector(".puerta").onclick=()=>tocarPuerta(c,n);
+    c.querySelector(".interior").onclick=()=>{ if(c.classList.contains("abierta")) abrirTarjeta(n,false); };
+    cal.appendChild(c);
+  });
+  actualizarEstado();
+}
+function tocarPuerta(c,n){
+  tocarMusica();
+  if(n>disponiblesAhora() || !S.dias[n]){
+    c.classList.remove("sacude"); void c.offsetWidth; c.classList.add("sacude");
+    const f=fechaCol(); let faltan = (f.year===ANIO&&f.month===12) ? n-f.day : Math.round((Date.UTC(ANIO,11,n)-Date.UTC(f.year,f.month-1,f.day))/864e5);
+    avisar(faltan<=1?"Esta puerta se abre mañana 💜":"Paciencia… faltan "+faltan+" días para esta puerta"); return;
+  }
+  c.classList.remove("disponible"); c.classList.add("abierta");
+  setTimeout(()=>abrirTarjeta(n,true),750);
+}
+function abrirTarjeta(n,nueva){
+  const d=S.dias[n]; if(!d) return;
+  if(S.preview){ (S.vistos=S.vistos||new Set()).add(n); }
+  else { if(!S.abiertos[n]) S.abiertos[n]=new Date().toISOString(); api({accion:"abrir",dia:n}).then(r=>{ if(r.ok&&r.abiertos) S.abiertos=r.abiertos; }).catch(()=>{}); }
+  const media=d.media||[], g="g"+Math.min(media.length,4);
+  let h=`<button class="cerrar" aria-label="Cerrar">×</button><div class="dia-etq">${n} de diciembre</div><h2 class="script">${esc(d.titulo)}</h2>`;
+  if(media.length) h+=`<div class="medios ${g}">${media.map(m=>m.t==="video"
+      ? `<video src="${m.f}" poster="${m.poster}" controls playsinline loop preload="metadata"></video>`
+      : `<img src="${m.f}" alt="Nuestro recuerdo" loading="lazy">`).join("")}</div>`;
+  const textos = Array.isArray(d.texto)?d.texto:[d.texto];
+  h+=`<div class="texto">${textos.map(t=>"<p>"+esc(t)+"</p>").join("")}</div>`;
+  if(d.vale) h+=`<div class="boleto"><small>Vale por</small><b>${esc(d.vale)}</b></div><p class="texto" style="font-size:16px;color:var(--ink-soft)">Tómale captura y muéstramela para canjearlo.</p>`;
+  if(d.cancion) h+=`<div class="extra-cancion"><div class="disco"></div><div class="cancion-nombre">${esc(d.cancion)}</div><div class="cancion-artista">${esc(d.artista)}</div>
+      <a class="btn" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=${encodeURIComponent(d.cancion+" "+d.artista)}">Escuchar en YouTube</a></div>`;
+  if(d.collage) h+=`<div class="collage">${d.collage.map(f=>`<img src="${f}" alt="" loading="lazy">`).join("")}</div>`;
+  if(d.tipo==="final") h+=`<div class="tuyo">Por siempre y para siempre tuyo</div><img class="firma" src="firma.png" alt="Firma">`;
+  $("#tarjeta").innerHTML=h;
+  $("#tarjeta .cerrar").onclick=cerrar;
+  $("#tarjeta").querySelectorAll(".medios.g2 img,.medios.g3 img,.medios.g4 img,.collage img").forEach(i=>i.onclick=()=>{ $("#zoom img").src=i.src; $("#zoom").classList.add("ver"); });
+  $("#tarjeta").querySelectorAll("video").forEach(v=>v.addEventListener("play",()=>{ if(!audio.paused){ audio.pause(); iconos(false); } }));
+  $("#modal").classList.add("abierto"); $("#tarjeta").scrollTop=0;
+  if(nueva) estallido(n===24?130:45);
+  actualizarEstado();
+}
+function cerrar(){ $("#modal").classList.remove("abierto"); $("#tarjeta").querySelectorAll("video").forEach(v=>v.pause()); }
+$("#modal").addEventListener("click",e=>{ if(e.target.id==="modal") cerrar(); });
+$("#zoom").onclick=()=>$("#zoom").classList.remove("ver");
+addEventListener("keydown",e=>{ if(e.key==="Escape"){ $("#zoom").classList.remove("ver"); cerrar(); } });
+
+function actualizarEstado(){
+  const e=$("#estado"), f=fechaCol(), disp=disponiblesAhora(); $("#cuenta").hidden=true;
+  if(S.preview){ e.innerHTML="Así lo verá ella. Todas las puertas están abiertas para ti; <b>en esta vista no se guarda nada</b>."; return; }
+  if(disp===0){
+    e.innerHTML="Las puertas empiezan a abrirse el <b>1 de diciembre</b>. Falta muy poquito…";
+    const min=Math.max(0,(Date.UTC(ANIO,11,1)-Date.UTC(f.year,f.month-1,f.day))/6e4-(f.hour*60+f.minute));
+    $("#c-d").textContent=Math.floor(min/1440); $("#c-h").textContent=Math.floor(min%1440/60); $("#c-m").textContent=Math.floor(min%60);
+    $("#cuenta").hidden=false; return;
+  }
+  if(f.year>ANIO || (f.month===12&&f.day>24)){ e.innerHTML="Todas las puertas están abiertas. Feliz Navidad, mi amor 🎄"; return; }
+  let sin=0; for(let n=1;n<=disp;n++) if(!S.abiertos[n]) sin++;
+  e.innerHTML = disp===24 && !S.abiertos[24] ? "<b>¡Hoy es Nochebuena!</b> La última puerta, la dorada, ya está esperándote."
+    : "Hoy es <b>"+f.day+" de diciembre</b>. "+(sin?(sin===1?"Tienes <b>1 puerta</b> esperándote.":"Tienes <b>"+sin+" puertas</b> esperándote."):"Ya abriste la de hoy. Vuelve mañana 💜");
+}
+// Revisa cada 30 s si pasó la medianoche; si hay puerta nueva, pide el contenido al servidor
+setInterval(async()=>{
+  if(S.rol!=="lectora"||S.preview) return;
+  if(dispSegunReloj()>S.disponibles){ try{ const r=await api({accion:"entrar"}); if(r.ok){ cargarDias(r); pintarCalendario(); } }catch(e){} }
+  else actualizarEstado();
+},30000);
+
+/* ===== Panel del administrador ===== */
+const fmtFecha = iso => new Date(iso).toLocaleString("es-CO",{timeZone:ZONA,day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
+function cargarPanel(r){
+  S.admin=r; cargarDias(r); S.preview=false;
+  const ab=Object.keys(r.abiertos||{}).length, f=r.hoy;
+  $("#p-resumen").textContent = ab+" de 24 puertas abiertas";
+  $("#p-hoy").textContent = "Hoy en Colombia: "+f.d+"/"+f.m+"/"+f.y+" · puertas disponibles para ella: "+r.disponibles;
+  const L=$("#p-dias"); L.innerHTML="";
+  for(let n=1;n<=24;n++){ const d=S.dias[n], a=r.abiertos[n];
+    const est = a ? `<span class="est si">✓ Abierta el ${fmtFecha(a)}</span>` : n<=r.disponibles ? `<span class="est no">Disponible, todavía sin abrir</span>` : `<span class="est">🔒 Se abre el ${n} de diciembre</span>`;
+    const row=document.createElement("div"); row.className="fila-dia";
+    row.innerHTML=`<div class="n">${n}</div><div class="mini" style="background-image:url('${portada(d)}')">${(d.media||[]).some(m=>m.t==="video")?"🎬":""}</div><div><b>${esc(d.titulo)}</b><br>${est}</div>`;
+    row.onclick=()=>{ S.preview=true; abrirTarjeta(n,false); };
+    L.appendChild(row); }
+  const reg=r.registro||[], cont=$("#p-registro");
+  if(!reg.length) cont.innerHTML='<p class="suave">Todavía no hay actividad.</p>';
+  else { const t=document.createElement("table"); t.className="tabla";
+    reg.forEach(x=>{ const tr=t.insertRow(); tr.insertCell().textContent=x.fecha; const td=tr.insertCell();
+      const a=document.createElement("div"); a.textContent=(x.correo===S.email?"Tú":x.correo===""?"":x.correo.split("@")[0])+" · "+x.evento;
+      const b=document.createElement("div"); b.className="det"; b.textContent=x.detalle; td.append(a,b); });
+    cont.innerHTML=""; cont.appendChild(t); }
+  $("#cinta").hidden=true; mostrar("panel");
+}
+async function refrescar(extra){ try{ const r=await api(Object.assign({accion:"entrar"},extra||{})); if(r.ok&&r.rol==="admin") cargarPanel(r); }catch(e){ avisar("Sin conexión"); } }
+$("#p-actualizar").onclick=()=>refrescar();
+$("#p-reiniciar").onclick=()=>{ if(confirmar("Se borrará el registro de puertas abiertas (para dejarlo en cero después de tus pruebas). ¿Seguro?")) refrescar({accion:"reiniciar"}); };
+function confirmar(t){ return window.confirm(t); }
+$("#p-ver").onclick=()=>{ S.preview=true; S.vistos=new Set(); pintarCalendario(); $("#cinta").hidden=false; mostrar("calendario-vista"); };
+$("#cinta").onclick=()=>{ S.preview=false; cerrar(); cargarPanel(S.admin); };
+$("#p-salir").onclick=()=>{ Object.assign(S,{email:null,clave:null,rol:null,admin:null}); $("#clave").value=""; $("#clave").hidden=true; $("#email").value=""; mostrar("acceso"); };
+
+/* ===== Música (opcional: musica.mp3) ===== */
+const audio=$("#musica"), mBtn=$("#musica-btn"); let hayMusica=true;
+audio.addEventListener("error",()=>{hayMusica=false;mBtn.classList.remove("visible")});
+function iconos(on){$("#ico-on").style.display=on?"":"none";$("#ico-off").style.display=on?"none":""}
+function tocarMusica(){ if(!hayMusica||!audio.paused||audio.error||audio._pausadaPorUsuario) return; audio.volume=0;
+  audio.play().then(()=>{mBtn.classList.add("visible");iconos(true);let v=0;const f=setInterval(()=>{v=Math.min(.6,v+.04);audio.volume=v;if(v>=.6)clearInterval(f)},150)}).catch(()=>{}); }
+mBtn.onclick=()=>{ if(audio.paused){audio._pausadaPorUsuario=false;audio.play();iconos(true)} else {audio._pausadaPorUsuario=true;audio.pause();iconos(false)} };
+
+/* ===== Nieve, estrellas y destellos ===== */
+let chispas=[];
+function estallido(k){ const W=innerWidth,H=innerHeight; for(let i=0;i<k;i++) chispas.push({x:W/2,y:H*.42,vx:(Math.random()-.5)*12,vy:-Math.random()*11-2,s:3+Math.random()*5,a:1,c:["#ecca8c","#e6cdf7","#b88ae8","#ffffff"][i%4]}); }
+(()=>{
+  const c=$("#cielo"), x=c.getContext("2d"); let W,H,dpr; const copos=[], estrellas=[];
+  function tam(){dpr=Math.min(devicePixelRatio||1,2);W=c.width=innerWidth*dpr;H=c.height=innerHeight*dpr;c.style.width=innerWidth+"px";c.style.height=innerHeight+"px"}
+  tam(); addEventListener("resize",tam);
+  const nuevo=ini=>({x:Math.random()*W,y:ini?Math.random()*H:-10*dpr,r:(1+Math.random()*2.6)*dpr,vy:(.3+Math.random()*.8)*dpr,f:Math.random()*6.28,a:.35+Math.random()*.5});
+  for(let i=0;i<(innerWidth<600?60:110);i++) copos.push(nuevo(true));
+  for(let i=0;i<40;i++) estrellas.push({x:Math.random(),y:Math.random()*.6,r:Math.random()*1.3+.3,f:Math.random()*6.28});
+  (function loop(){
+    x.clearRect(0,0,W,H);
+    for(const e of estrellas){ e.f+=.02; x.globalAlpha=.25+Math.sin(e.f)*.25+.25; x.fillStyle="#ecca8c"; x.beginPath(); x.arc(e.x*W,e.y*H,e.r*dpr,0,6.28); x.fill(); }
+    for(const p of copos){ p.f+=.012; p.y+=p.vy; p.x+=Math.sin(p.f)*.4*dpr; if(p.y>H+10*dpr) Object.assign(p,nuevo(false)); x.globalAlpha=p.a; x.fillStyle="#f3eafb"; x.beginPath(); x.arc(p.x,p.y,p.r,0,6.28); x.fill(); }
+    chispas=chispas.filter(p=>p.a>.03);
+    for(const p of chispas){ p.vy+=.22; p.x+=p.vx; p.y+=p.vy; p.a*=.975; x.globalAlpha=p.a; x.fillStyle=p.c; x.beginPath(); x.arc(p.x*dpr,p.y*dpr,p.s*dpr*.5,0,6.28); x.fill(); }
+    x.globalAlpha=1; requestAnimationFrame(loop);
+  })();
+})();
+</script>
+</body>
+</html>
